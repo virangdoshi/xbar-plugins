@@ -164,7 +164,7 @@ def check_file(file_full_path, pr=False):
     metadata = {}
     linters = []
     with open(file_full_path, "r") as fp:
-        first_line = fp.readline().strip()
+        first_line = fp.readline(5_000_000).strip()
 
         for candidate in candidates:
             if candidate.validShebang(first_line):
