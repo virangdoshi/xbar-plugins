@@ -19,8 +19,8 @@
 import json
 import urllib.request, urllib.error, urllib.parse
 import textwrap
-from random import randint
 import subprocess
+import secrets
 
 # get yours at https://darksky.net/dev
 api_key = ''
@@ -135,7 +135,7 @@ def get_wx():
 
   try:
     if 'loc' in location:
-      wx = json.load(urllib.request.urlopen('https://api.darksky.net/forecast/' + api_key + '/' + location['loc'] + '?units=' + units + "&v=" + str(randint(0,100))))
+      wx = json.load(urllib.request.urlopen('https://api.darksky.net/forecast/' + api_key + '/' + location['loc'] + '?units=' + units + "&v=" + str(secrets.SystemRandom().randint(0,100))))
     else:
       return False
   except urllib.error.HTTPError:
