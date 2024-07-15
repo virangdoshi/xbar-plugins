@@ -29,7 +29,7 @@ class CO2Signal:
     def requestC02Signal(self):
         url = 'http://api.co2signal.com/v1/latest?countryCode=' + self.countryCode
         headers = {'auth-token': self.authToken}
-        self.resDict = requests.get(url, params=headers).json()
+        self.resDict = requests.get(url, params=headers, timeout=60).json()
 
     def displayResponse(self):
         try:

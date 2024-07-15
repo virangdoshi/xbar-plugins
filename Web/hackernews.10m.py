@@ -42,7 +42,7 @@ class Client:
 
     def fetch_data(self):
         res, ret = (
-            self.__ids_to_json(requests.get(self.__live_data(self.type)).json()[:10]),
+            self.__ids_to_json(requests.get(self.__live_data(self.type), timeout=60).json()[:10]),
             [],
         )
 
@@ -68,7 +68,7 @@ class Client:
         return ret
 
     def __ids_to_json(self, data):
-        return [requests.get(self.__static_data(id, static_type)).json() for id in data]
+        return [requests.get(self.__static_data(id, static_type), timeout=60).json() for id in data]
 
     def __live_data(self, type):
         return "https://hacker-news.firebaseio.com/v0/{}.json?print=pretty".format(type)

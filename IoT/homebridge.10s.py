@@ -98,9 +98,9 @@ def doStuff(token, url, icon, command, unit):
 
     if command:
         if command == "restart":
-            requests.put('{}/api/server/restart'.format(url), headers=headers)
+            requests.put('{}/api/server/restart'.format(url), headers=headers, timeout=60)
         elif command == "reboot":
-            requests.put('{}/api/platform-tools/linux/restart-host'.format(url), headers=headers)
+            requests.put('{}/api/platform-tools/linux/restart-host'.format(url), headers=headers, timeout=60)
     else:
         cpu = ""
         temp = ""
@@ -111,7 +111,7 @@ def doStuff(token, url, icon, command, unit):
         status = ""
         state = False
 
-        updatesRequest = requests.get('{}/api/plugins'.format(url), headers=headers)
+        updatesRequest = requests.get('{}/api/plugins'.format(url), headers=headers, timeout=60)
         if updatesRequest.status_code == 200:
             for plugin in updatesRequest.json():
                 name = plugin['name']
@@ -124,19 +124,19 @@ def doStuff(token, url, icon, command, unit):
                 if update is True:
                     numUpdates += 1
                 updates.append("{} v{} - {} | href={}".format(name, plugin['installedVersion'], "up to date" if not update else "new update v{}".format(plugin['latestVersion']), link))
-        nodeJSRequest = requests.get('{}/api/status/nodejs'.format(url), headers=headers)
+        nodeJSRequest = requests.get('{}/api/status/nodejs'.format(url), headers=headers, timeout=60)
         if nodeJSRequest.status_code == 200:
             nodeVersion = nodeJSRequest.json()
             updates.append("NodeJS {} - {} | href=https://github.com/nodejs/node/releases/latest".format(nodeVersion['currentVersion'], "up to date" if not nodeVersion['updateAvailable'] else "new update {}".format(nodeVersion['latestVersion'])))
             numUpdates += 1 if nodeVersion['updateAvailable'] else 0
-        homebridgeRequest = requests.get('{}/api/status/homebridge-version'.format(url), headers=headers)
+        homebridgeRequest = requests.get('{}/api/status/homebridge-version'.format(url), headers=headers, timeout=60)
         if homebridgeRequest.status_code == 200:
             hbVersion = homebridgeRequest.json()
             updates.append("Homebridge v{} - {} | href=https://github.com/homebridge/homebridge/releases/latest".format(hbVersion['installedVersion'], "up to date" if not hbVersion['updateAvailable'] else "new update v{}".format(hbVersion['latestVersion'])))
             numUpdates += 1 if hbVersion['updateAvailable'] else 0
         numUpdates = "Avaliable Updates: " + str(numUpdates)
 
-        cpuRequest = requests.get('{}/api/status/cpu'.format(url), headers=headers)
+        cpuRequest = requests.get('{}/api/status/cpu'.format(url), headers=headers, timeout=60)
         if cpuRequest.status_code == 200:
             cpu = "CPU: " + str(round(float(cpuRequest.json()["currentLoad"]))) + "%"
             try:
@@ -149,15 +149,15 @@ def doStuff(token, url, icon, command, unit):
             except:
                 pass
         
-        ramRequest = requests.get('{}/api/status/ram'.format(url), headers=headers)
+        ramRequest = requests.get('{}/api/status/ram'.format(url), headers=headers, timeout=60)
         if ramRequest.status_code == 200:
             ram = "RAM: " + str(100 - round((int(ramRequest.json()["mem"]["available"]) / int(ramRequest.json()["mem"]["total"])) * 100)) + "%"
         
-        uptimeRequest = requests.get('{}/api/status/uptime'.format(url), headers=headers)
+        uptimeRequest = requests.get('{}/api/status/uptime'.format(url), headers=headers, timeout=60)
         if uptimeRequest.status_code == 200:
             uptime = "Uptime: " + str(round(round(float(uptimeRequest.json()["processUptime"])) / 86400)) + " days"
         
-        statusRequest = requests.get('{}/api/status/homebridge'.format(url), headers=headers)
+        statusRequest = requests.get('{}/api/status/homebridge'.format(url), headers=headers, timeout=60)
         if statusRequest.status_code == 200:
             if statusRequest.json()["status"] == "up":
                 state = True
@@ -204,7 +204,7 @@ def login(username, password, url, icon, command, unit, config):
         "username": username,
         "password": password
     }
-    response = requests.post('{}/api/auth/login'.format(url), headers=headers, data=json.dumps(data))
+    response = requests.post('{}/api/auth/login'.format(url), headers=headers, data=json.dumps(data), timeout=60)
     if response.status_code == 201:
         token = response.json()['access_token']
         firstSection = ""
@@ -284,7 +284,7 @@ else:
             'Authorization': 'Bearer {}'.format(token),
         }
 
-        checkToken = requests.get('{}/api/auth/check'.format(url), headers=headers)
+        checkToken = requests.get('{}/api/auth/check'.format(url), headers=headers, timeout=60)
         if checkToken.status_code == 401:
             login(username, password, url, icon, command, unit, config)
         elif checkToken.status_code == 200:

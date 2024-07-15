@@ -43,7 +43,7 @@ xml = """
 url = "https://rno-smartgtw.viaaq.eu/aqPortal/B2CSmartphoneProxy/"
 
 # perform a user/password authentication
-r = requests.post(url + "UserService",data=xml.format(user, password), headers=headers)
+r = requests.post(url + "UserService",data=xml.format(user, password), headers=headers, timeout=60)
 session = r.headers.get('Set-Cookie').split(';')[0]
 cookie = session.split('=')[1]
 
@@ -62,7 +62,7 @@ xml = """
 </ns4:SmartphoneGetNewCurrentDataRequest>
 """
 
-r1 = requests.post(url + "EvDashboardService",data=xml.format(vin), headers=headers, cookies=r.cookies)
+r1 = requests.post(url + "EvDashboardService",data=xml.format(vin), headers=headers, cookies=r.cookies, timeout=60)
 
 root = ET.fromstring(r1.content)
 for a in root.findall('.//{urn:com:renault:gdc:type:evDashboard:v1}BatteryRemainingPercent'):

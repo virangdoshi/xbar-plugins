@@ -22,7 +22,7 @@ if not USERNAME or not AUTH_TOKEN:
 API_URL = 'https://www.beeminder.com/api/v1/users/{}.json'.format(USERNAME)
 
 req = requests.get(API_URL, params=dict(
-    auth_token=AUTH_TOKEN, datapoints_count=1, associations=True))
+    auth_token=AUTH_TOKEN, datapoints_count=1, associations=True), timeout=60)
 
 data = req.json()
 goals = data['goals']

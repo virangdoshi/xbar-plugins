@@ -18,11 +18,11 @@ from datetime import datetime
 userId = 88900889
 
 userInfoUrl = "https://api.bilibili.com/x/web-interface/card?mid=" + str(userId)
-userInfoRes = requests.request("GET", userInfoUrl).json()
+userInfoRes = requests.request("GET", userInfoUrl, timeout=60).json()
 print("粉丝：" + str(userInfoRes['data']['follower']))
 
 subMitVideosUrl = "http://space.bilibili.com/ajax/member/getSubmitVideos?mid=" + str(userId)
-subMitVideosRes = requests.request("GET", subMitVideosUrl).json()
+subMitVideosRes = requests.request("GET", subMitVideosUrl, timeout=60).json()
 print("---")
 for video in subMitVideosRes["data"]["vlist"]:
     print(video["title"] + "| color=#123def href=http://bilibili.com/video/av" + str(video["aid"]))
