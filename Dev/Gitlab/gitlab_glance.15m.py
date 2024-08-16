@@ -17,10 +17,8 @@
 
 import os
 import urllib
-
-# Third-party deps
-import requests
 from requests.structures import CaseInsensitiveDict
+from security import safe_requests
 
 
 class Utils:
@@ -97,7 +95,7 @@ class GitLabAPIHelper:
         request_url = f"{self.__get_request_url()}/{endpoint}"
         headers = self.__get_request_headers()
 
-        return requests.get(request_url, headers=headers, params=params).json()
+        return safe_requests.get(request_url, headers=headers, params=params).json()
 
     def __get_merge_requests(self, params):
         return self.__get_response("/merge_requests", params)

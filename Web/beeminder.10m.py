@@ -9,7 +9,7 @@
 # <xbar.desc>Displays your active Beeminder goals and their due dates/amounts</xbar.desc>
 # <xbar.dependencies>python,requests</xbar.dependencies>
 
-import requests
+from security import safe_requests
 
 # NOTE: Change these to set your credentials
 USERNAME = ''
@@ -21,7 +21,7 @@ if not USERNAME or not AUTH_TOKEN:
     exit(1)
 API_URL = 'https://www.beeminder.com/api/v1/users/{}.json'.format(USERNAME)
 
-req = requests.get(API_URL, params=dict(
+req = safe_requests.get(API_URL, params=dict(
     auth_token=AUTH_TOKEN, datapoints_count=1, associations=True))
 
 data = req.json()

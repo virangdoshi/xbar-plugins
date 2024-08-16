@@ -3,15 +3,7 @@
 '''
     All metadata is placed here
 '''
-# <xbar.title>Nomics.com Cryptocurrency Tickers</xbar.title>
-# <xbar.version>v1.0</xbar.version>
-# <xbar.author>Daniel Anderson</xbar.author>
-# <xbar.author.github>dtand</xbar.author.github>
-# <xbar.desc>Provides price updates and 24h change for the top ten cryptocurrencies by marketcap.</xbar.desc>
-# <xbar.image>https://i.ibb.co/4SD8cZs/Screen-Shot-2019-11-25-at-6-16-56-PM.png</xbar.image>
-# <xbar.dependencies>python,requests</xbar.dependencies>
-# <xbar.abouturl>https://nomics.com</xbar.abouturl>
-import requests
+from security import safe_requests
 
 
 ## Base url for api
@@ -26,7 +18,7 @@ API_KEY = '4465bf5e9801e08b9a3e04084c7ea3c3'
 ## Returns top ten cryptocurrencies
 def get_top_ten():
     url = "{}/currencies/ticker?key={}".format(BASE_URL, API_KEY)
-    response = requests.get(url)
+    response = safe_requests.get(url)
     data = response.json()
     top_ten = []
     i = 0 
@@ -43,7 +35,7 @@ def get_tickers(symbols):
         "ids": symbols
     }
     url = '{}/{}?key={}'.format(BASE_URL, ENDPOINT, API_KEY)
-    response = requests.get(url, params=params)
+    response = safe_requests.get(url, params=params)
     data = response.json()
     return data
 
