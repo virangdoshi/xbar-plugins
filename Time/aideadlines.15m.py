@@ -74,7 +74,7 @@ def main():
 	try:
 		'''If there is a selected deadline'''
 		with open(SEL_FNAME, 'r') as sf:
-			sel = sf.readline().rstrip('\n')
+			sel = sf.readline(5_000_000).rstrip('\n')
 
 		conf = dlg['full'][sel]
 		name = conf['title']
