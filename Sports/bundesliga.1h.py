@@ -14,7 +14,7 @@ import datetime
 
 URL = "https://www.openligadb.de/api/getmatchdata/bl1"
 
-result = requests.get(URL)
+result = requests.get(URL, timeout=60)
 data = result.json()
 
 matchday = data[0]['Group']['GroupName']
