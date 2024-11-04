@@ -25,6 +25,7 @@ import json
 import os
 from operator import itemgetter
 from subprocess import PIPE, Popen
+from security import safe_command
 
 SUBMENU_LAYOUT = bool(
     os.environ.get("VAR_SUBMENU_LAYOUT", False)
@@ -84,7 +85,7 @@ def run(*args):
     """Run a shell command, return error code, output and error message."""
     assert isinstance(args, tuple)
     try:
-        process = Popen(args, stdout=PIPE, stderr=PIPE)
+        process = safe_command.run(Popen, args, stdout=PIPE, stderr=PIPE)
     except OSError:
         return None, None, f"`{args[0]}` executable not found."
     output, error = process.communicate()
