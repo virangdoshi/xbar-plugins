@@ -5,8 +5,7 @@
 """
 import time
 from collections import defaultdict
-
-import requests
+from security import safe_requests
 
 #
 # Enter your wallets here:
@@ -35,7 +34,7 @@ CMC_LISTINGS = []
 
 def get_json(url):
     """Fetches URL and returns JSON. """
-    res = requests.get(url)
+    res = safe_requests.get(url)
     res.raise_for_status()
     return res.json()
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env PYTHONIOENCODING=UTF-8 /usr/local/bin/python3
 
 import requests
+from security import safe_requests
 
 # <xbar.title>Coincap Lite</xbar.title>
 # <xbar.version>v1.0</xbar.version>
@@ -30,7 +31,7 @@ def display_coins(coins, display_in="USD"):
     }
     for coin in coins:
         coin_id = return_id(coin)
-        data = requests.get("https://api.coinmarketcap.com/v2/ticker/{}?convert={}".format(coin_id, display_in)).json()["data"]
+        data = safe_requests.get("https://api.coinmarketcap.com/v2/ticker/{}?convert={}".format(coin_id, display_in)).json()["data"]
         print(formats[display_in].format(data["symbol"], data["quotes"][display_in]["price"], data["quotes"][display_in]["percent_change_24h"], \
                 data["quotes"][display_in]["percent_change_7d"], data["rank"], data["website_slug"]))
 

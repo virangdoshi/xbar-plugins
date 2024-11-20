@@ -10,6 +10,7 @@ from urllib.parse import quote_plus
 import sys
 
 import requests
+from security import safe_requests
 
 NAGIOS_HOST = ''
 NAGIOS_USERNAME = ''
@@ -47,7 +48,7 @@ def errOut(msg):
 def getData(key, value):
     p = {key: value}
     p.update(params)
-    r = requests.get("%s/thruk/cgi-bin/status.cgi" % NAGIOS_HOST, params=p, auth=(NAGIOS_USERNAME, NAGIOS_PASSWORD))
+    r = safe_requests.get("%s/thruk/cgi-bin/status.cgi" % NAGIOS_HOST, params=p, auth=(NAGIOS_USERNAME, NAGIOS_PASSWORD))
     return r.json()
 
 if not NAGIOS_HOST or not NAGIOS_USERNAME or not NAGIOS_PASSWORD:
