@@ -97,7 +97,7 @@ class GitLabAPIHelper:
         request_url = f"{self.__get_request_url()}/{endpoint}"
         headers = self.__get_request_headers()
 
-        return requests.get(request_url, headers=headers, params=params).json()
+        return requests.get(request_url, headers=headers, params=params, timeout=60).json()
 
     def __get_merge_requests(self, params):
         return self.__get_response("/merge_requests", params)

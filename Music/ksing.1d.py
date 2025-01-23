@@ -66,7 +66,7 @@ class Object():
         }
 
     def getText(self, url):
-        return requests.get(url, headers=self.headers).text
+        return requests.get(url, headers=self.headers, timeout=60).text
 
     @staticmethod
     def timeConverter(unixTime):
@@ -100,7 +100,7 @@ class Song(Object):
         return self.play_url_video if self.play_url == '' else self.play_url
 
     def getContent(self):
-        return requests.get(self.getPlayUrl()).content
+        return requests.get(self.getPlayUrl(), timeout=60).content
 
     def __repr__(self):
         return "{} - {}".format(self.timeConverter(self.time), self.title)

@@ -30,14 +30,14 @@ def display_coins(coins, display_in="USD"):
     }
     for coin in coins:
         coin_id = return_id(coin)
-        data = requests.get("https://api.coinmarketcap.com/v2/ticker/{}?convert={}".format(coin_id, display_in)).json()["data"]
+        data = requests.get("https://api.coinmarketcap.com/v2/ticker/{}?convert={}".format(coin_id, display_in), timeout=60).json()["data"]
         print(formats[display_in].format(data["symbol"], data["quotes"][display_in]["price"], data["quotes"][display_in]["percent_change_24h"], \
                 data["quotes"][display_in]["percent_change_7d"], data["rank"], data["website_slug"]))
 
 
 print('Ƀ')
 print('---')
-ALL_COINS = requests.get("https://api.coinmarketcap.com/v2/listings").json()["data"]
+ALL_COINS = requests.get("https://api.coinmarketcap.com/v2/listings", timeout=60).json()["data"]
 IMAGE_URL = "https://s2.coinmarketcap.com/generated/sparklines/web/7d/usd/{}.png"
 print('COIN     USD    24 HOUR  7 DAY  RANK|font="Menlo"')
 display_coins(coins_usd)
