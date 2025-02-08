@@ -12,6 +12,7 @@
 from datetime import datetime
 from os import getenv
 from subprocess import check_output, run
+from security import safe_command
 
 DB = getenv('HOME') + '/Library/Caches/recent-apps'
 
@@ -20,7 +21,7 @@ new = True
 
 now = datetime.now().isoformat()
 
-run('touch ' + DB, shell=True)
+safe_command.run(run, 'touch ' + DB, shell=True)
 
 with open(DB, 'r+') as f:
     entries = f.read().strip().split("\n")
