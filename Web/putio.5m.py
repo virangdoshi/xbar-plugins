@@ -10,6 +10,7 @@
 
 import requests
 import sys,json,base64
+from security import safe_requests
 
 OAUTH_TOKEN="<YOUR_TOKEN_HERE>" # https://put.io/v2/docs/gettingstarted.html
 BURL="https://api.put.io/v2" # v2 api base url
@@ -52,14 +53,14 @@ def getdir(pid):
     files = []
 
     # Check that we are listing a folder
-    r = requests.get(BURL+'/files/%s?oauth_token=%s' %(pid,OAUTH_TOKEN)) 
+    r = safe_requests.get(BURL+'/files/%s?oauth_token=%s' %(pid,OAUTH_TOKEN)) 
     if json.loads(str(r.content,encoding='utf-8'))['file']['file_type'] != 'FOLDER':
         return files
     # If we are then return a list of files
-    r = requests.get(BURL+'/files/list?parent_id=%s&oauth_token=%s' %(pid,OAUTH_TOKEN))
+    r = safe_requests.get(BURL+'/files/list?parent_id=%s&oauth_token=%s' %(pid,OAUTH_TOKEN))
     for f in json.loads(str(r.content,encoding='utf-8'))['files']:
         # Fetch thumbnail icon and convert it to a base64 encoded string
-        f['icon'] = str(base64.b64encode(requests.get(f['icon']).content),encoding='utf-8')
+        f['icon'] = str(base64.b64encode(safe_requests.get(f['icon']).content),encoding='utf-8')
         files.append(f)
     return files
 

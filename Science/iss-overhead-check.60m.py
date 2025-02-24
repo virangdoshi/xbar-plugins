@@ -9,7 +9,7 @@
 # <xbar.dependencies>python</xbar.dependencies>
 
 from time import localtime
-from requests import get
+from security import safe_requests
 
 LATITUDE = -27.591665  # Put your latitude here
 LONGITUDE = -48.589599  # Put your longitude here
@@ -18,7 +18,7 @@ ALTITUDE = 12  # Put your altitude here
 
 def iss_overhead():
     url = "http://api.open-notify.org/iss-pass.json?lat={}&lon={}&alt={}".format(LATITUDE, LONGITUDE, ALTITUDE)
-    response = get(url)
+    response = safe_requests.get(url)
     content = response.json()
 
     print('🛰')
