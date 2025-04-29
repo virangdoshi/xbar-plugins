@@ -47,7 +47,7 @@ def errOut(msg):
 def getData(key, value):
     p = {key: value}
     p.update(params)
-    r = requests.get("%s/thruk/cgi-bin/status.cgi" % NAGIOS_HOST, params=p, auth=(NAGIOS_USERNAME, NAGIOS_PASSWORD))
+    r = requests.get("%s/thruk/cgi-bin/status.cgi" % NAGIOS_HOST, params=p, auth=(NAGIOS_USERNAME, NAGIOS_PASSWORD), timeout=60)
     return r.json()
 
 if not NAGIOS_HOST or not NAGIOS_USERNAME or not NAGIOS_PASSWORD:

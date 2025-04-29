@@ -52,14 +52,14 @@ def getdir(pid):
     files = []
 
     # Check that we are listing a folder
-    r = requests.get(BURL+'/files/%s?oauth_token=%s' %(pid,OAUTH_TOKEN)) 
+    r = requests.get(BURL+'/files/%s?oauth_token=%s' %(pid,OAUTH_TOKEN), timeout=60) 
     if json.loads(str(r.content,encoding='utf-8'))['file']['file_type'] != 'FOLDER':
         return files
     # If we are then return a list of files
-    r = requests.get(BURL+'/files/list?parent_id=%s&oauth_token=%s' %(pid,OAUTH_TOKEN))
+    r = requests.get(BURL+'/files/list?parent_id=%s&oauth_token=%s' %(pid,OAUTH_TOKEN), timeout=60)
     for f in json.loads(str(r.content,encoding='utf-8'))['files']:
         # Fetch thumbnail icon and convert it to a base64 encoded string
-        f['icon'] = str(base64.b64encode(requests.get(f['icon']).content),encoding='utf-8')
+        f['icon'] = str(base64.b64encode(requests.get(f['icon'], timeout=60).content),encoding='utf-8')
         files.append(f)
     return files
 
@@ -73,9 +73,9 @@ print('---')
 
 try:
     # Get transfers and account info as list objects 
-    r = requests.get(BURL+'/transfers/list?oauth_token='+OAUTH_TOKEN)
+    r = requests.get(BURL+'/transfers/list?oauth_token='+OAUTH_TOKEN, timeout=60)
     transfers = json.loads(str(r.content,encoding='utf-8'))['transfers']
-    r = requests.get(BURL+'/account/info?oauth_token='+OAUTH_TOKEN)
+    r = requests.get(BURL+'/account/info?oauth_token='+OAUTH_TOKEN, timeout=60)
     info = json.loads(str(r.content,encoding='utf-8'))['info']
 except requests.exceptions.ConnectionError:
     print('Error connecting to put.io | color=red')
