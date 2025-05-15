@@ -15,6 +15,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+from security import safe_command
 
 APPNAME = 'pocketbar'
 CMD = sys.argv[0]
@@ -72,7 +73,7 @@ def pocket_icon():
 def get_ok(caption):
     osa_bin = 'osascript'
     osa_params = f"-e 'Tell application \"System Events\" to display alert \"Pocket Bar\" message {caption} buttons \"Close\" default button \"Close\"'"
-    task = subprocess.Popen(f'{osa_bin} {osa_params} > /dev/null', shell=True)
+    task = safe_command.run(subprocess.Popen, f'{osa_bin} {osa_params} > /dev/null', shell=True)
     task.wait()
 
 
@@ -80,7 +81,7 @@ def get_input(caption, hidden=False):
     osa_bin = 'osascript'
     hidden_text = ' with hidden answer' if hidden else ''
     osa_params = f"-e 'Tell application \"System Events\" to display dialog {caption} default answer \"\" with title \"Pocket Bar\" with icon 1 {hidden_text}' -e 'text returned of result'"
-    task = subprocess.Popen(f'{osa_bin} {osa_params}', shell=True, stdout=subprocess.PIPE)
+    task = safe_command.run(subprocess.Popen, f'{osa_bin} {osa_params}', shell=True, stdout=subprocess.PIPE)
     answer_text = task.stdout.read()
     task.wait()
 
