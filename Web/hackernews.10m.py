@@ -9,8 +9,8 @@
 # <xbar.image>https://i.imgur.com/rGZzrB0.png</xbar.image>
 # <xbar.dependencies>python3, requests</xbar.dependencies>
 
-import requests
 from dataclasses import dataclass
+from security import safe_requests
 
 static_type = "item"
 
@@ -42,7 +42,7 @@ class Client:
 
     def fetch_data(self):
         res, ret = (
-            self.__ids_to_json(requests.get(self.__live_data(self.type)).json()[:10]),
+            self.__ids_to_json(safe_requests.get(self.__live_data(self.type)).json()[:10]),
             [],
         )
 
@@ -68,7 +68,7 @@ class Client:
         return ret
 
     def __ids_to_json(self, data):
-        return [requests.get(self.__static_data(id, static_type)).json() for id in data]
+        return [safe_requests.get(self.__static_data(id, static_type)).json() for id in data]
 
     def __live_data(self, type):
         return "https://hacker-news.firebaseio.com/v0/{}.json?print=pretty".format(type)

@@ -18,11 +18,11 @@ import json
 import math
 import time
 import random
-import requests
 from time import strftime, localtime
 from playsound import playsound
 from requests_futures.sessions import FuturesSession
 from concurrent.futures import as_completed
+from security import safe_requests
 
 USERID = os.getenv('VAR_ID')
 SCRIPT_NAME = sys.argv[0][2:]  # sys.argv[0] = ./ksing.1d.py
@@ -66,7 +66,7 @@ class Object():
         }
 
     def getText(self, url):
-        return requests.get(url, headers=self.headers).text
+        return safe_requests.get(url, headers=self.headers).text
 
     @staticmethod
     def timeConverter(unixTime):
@@ -100,7 +100,7 @@ class Song(Object):
         return self.play_url_video if self.play_url == '' else self.play_url
 
     def getContent(self):
-        return requests.get(self.getPlayUrl()).content
+        return safe_requests.get(self.getPlayUrl()).content
 
     def __repr__(self):
         return "{} - {}".format(self.timeConverter(self.time), self.title)

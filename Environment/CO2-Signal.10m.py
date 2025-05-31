@@ -9,8 +9,8 @@
 # <xbar.abouturl>https://docs.co2signal.com/</xbar.abouturl>
 # <xbar.image>https://raw.githubusercontent.com/pygoner/Plugin-Bitbar/main/Bitbar%20C02%20Signal%20Plugin%20Image.png</xbar.image>
 
-import requests
 import sys
+from security import safe_requests
 
 # user settings 
 # get your C02Signal API token at https://www.co2signal.com/
@@ -29,7 +29,7 @@ class CO2Signal:
     def requestC02Signal(self):
         url = 'http://api.co2signal.com/v1/latest?countryCode=' + self.countryCode
         headers = {'auth-token': self.authToken}
-        self.resDict = requests.get(url, params=headers).json()
+        self.resDict = safe_requests.get(url, params=headers).json()
 
     def displayResponse(self):
         try:
