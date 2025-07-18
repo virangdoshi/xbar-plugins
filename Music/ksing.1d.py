@@ -17,12 +17,12 @@ import sys
 import json
 import math
 import time
-import random
 import requests
 from time import strftime, localtime
 from playsound import playsound
 from requests_futures.sessions import FuturesSession
 from concurrent.futures import as_completed
+import secrets
 
 USERID = os.getenv('VAR_ID')
 SCRIPT_NAME = sys.argv[0][2:]  # sys.argv[0] = ./ksing.1d.py
@@ -62,7 +62,7 @@ class Object():
             'Host': 'node.kg.qq.com',
             'Referer': 'node.kg.qq.com',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
-            '(KHTML, like Gecko) Chrome/{} Safari/537.3'.format(random.choice(chrome_versions))
+            '(KHTML, like Gecko) Chrome/{} Safari/537.3'.format(secrets.choice(chrome_versions))
         }
 
     def getText(self, url):
@@ -322,7 +322,7 @@ def play(setting, index):
     def createPlaylist(playlist, song, loop, nextIndex=True):
         index = findIndexBySongidAndTime(playlist, song.ksong_mid, song.time)
         if loop == 'Random':
-            random.shuffle(playlist)
+            secrets.SystemRandom().shuffle(playlist)
             if nextIndex:
                 index = 0
             else:

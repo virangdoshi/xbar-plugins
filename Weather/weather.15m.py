@@ -13,8 +13,8 @@ import emoji
 import json
 from urllib.request import urlopen
 from urllib.error import URLError
-from random import randint
 import datetime
+import secrets
 
 location_name = 'London,GB'
 api_key = '8b4824b451d5db1612156837df880f55'
@@ -28,11 +28,11 @@ def get_wx():
 
     try:
         daily_wx = json.load(urlopen(f'http://api.openweathermap.org/data/2.5/forecast/daily?q={location_name}'
-                                     f'&units={units}&lang={lang}&appid={api_key}&v={str(randint(0, 100))}'))
+                                     f'&units={units}&lang={lang}&appid={api_key}&v={str(secrets.SystemRandom().randint(0, 100))}'))
         location = str(daily_wx['city']['id'])
         wx = json.load(urlopen(
             'http://api.openweathermap.org/data/2.5/weather?id=' + location + '&units=' + units + '&lang=' + lang + '&appid=' + api_key + "&v=" + str(
-                randint(0, 100))))
+                secrets.SystemRandom().randint(0, 100))))
     except URLError:
         return False
 
