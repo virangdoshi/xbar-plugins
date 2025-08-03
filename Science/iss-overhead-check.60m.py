@@ -18,7 +18,7 @@ ALTITUDE = 12  # Put your altitude here
 
 def iss_overhead():
     url = "http://api.open-notify.org/iss-pass.json?lat={}&lon={}&alt={}".format(LATITUDE, LONGITUDE, ALTITUDE)
-    response = get(url)
+    response = get(url, timeout=60)
     content = response.json()
 
     print('🛰')

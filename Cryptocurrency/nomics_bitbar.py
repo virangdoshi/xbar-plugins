@@ -26,7 +26,7 @@ API_KEY = '4465bf5e9801e08b9a3e04084c7ea3c3'
 ## Returns top ten cryptocurrencies
 def get_top_ten():
     url = "{}/currencies/ticker?key={}".format(BASE_URL, API_KEY)
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     data = response.json()
     top_ten = []
     i = 0 
@@ -43,7 +43,7 @@ def get_tickers(symbols):
         "ids": symbols
     }
     url = '{}/{}?key={}'.format(BASE_URL, ENDPOINT, API_KEY)
-    response = requests.get(url, params=params)
+    response = requests.get(url, params=params, timeout=60)
     data = response.json()
     return data
 

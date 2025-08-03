@@ -11,6 +11,6 @@
 
 from requests import get
 
-data = get('https://faithinhumanityscore.com/api.php').json()
+data = get('https://faithinhumanityscore.com/api.php', timeout=60).json()
 score = data['score']
 print(score)
