@@ -27,15 +27,15 @@ usd = "{: <5} {:0<9.3f} {:0<+6.2f}% {:0<9.3f} {:0<9.3f} {:0<9.3f}  {:0>3}" + sta
 btc = "{: <5} {:0<9.7f} {:0<+6.2f}% {:0<9.7f} {:0<9.7f} {:0<9.7f}  {:0>3}" + standard
 #----DATA----#
 for coin in coins_usd:
-    data = requests.get("https://api.coinmarketcap.com/v1/ticker/{}".format(coin)).json()[0]
+    data = requests.get("https://api.coinmarketcap.com/v1/ticker/{}".format(coin), timeout=60).json()[0]
     coin_data_usd[data["symbol"]] = data['rank']
 for coin in coins_btc:
-    data = requests.get("https://api.coinmarketcap.com/v1/ticker/{}".format(coin)).json()[0]
+    data = requests.get("https://api.coinmarketcap.com/v1/ticker/{}".format(coin), timeout=60).json()[0]
     coin_data_btc[data["symbol"]] = data['rank'] 
-raw_usd = requests.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms={}&tsyms=USD'.format(','.join(coin_data_usd.keys()))).json()['RAW']
-raw_btc = requests.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms={}&tsyms=BTC'.format(','.join(coin_data_btc.keys()))).json()['RAW']
-raw_cmcbtc = [requests.get('https://api.coinmarketcap.com/v1/ticker/{}'.format(coin)).json()[0] for coin in coins_cmcbtc]
-raw_cmcusd = [requests.get('https://api.coinmarketcap.com/v1/ticker/{}'.format(coin)).json()[0] for coin in coins_cmcusd]
+raw_usd = requests.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms={}&tsyms=USD'.format(','.join(coin_data_usd.keys())), timeout=60).json()['RAW']
+raw_btc = requests.get('https://min-api.cryptocompare.com/data/pricemultifull?fsyms={}&tsyms=BTC'.format(','.join(coin_data_btc.keys())), timeout=60).json()['RAW']
+raw_cmcbtc = [requests.get('https://api.coinmarketcap.com/v1/ticker/{}'.format(coin), timeout=60).json()[0] for coin in coins_cmcbtc]
+raw_cmcusd = [requests.get('https://api.coinmarketcap.com/v1/ticker/{}'.format(coin), timeout=60).json()[0] for coin in coins_cmcusd]
 #---HELPER---#
 def f(x):
     return float(x)

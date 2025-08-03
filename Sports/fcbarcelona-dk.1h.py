@@ -16,7 +16,7 @@ DIVIDER = '---\n'
 
 if __name__ == '__main__':
     try:
-        r = requests.get(URL)
+        r = requests.get(URL, timeout=60)
 
         if r.ok:
             print('⚽️')

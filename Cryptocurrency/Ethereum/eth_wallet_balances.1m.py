@@ -35,7 +35,7 @@ CMC_LISTINGS = []
 
 def get_json(url):
     """Fetches URL and returns JSON. """
-    res = requests.get(url)
+    res = requests.get(url, timeout=60)
     res.raise_for_status()
     return res.json()
 
